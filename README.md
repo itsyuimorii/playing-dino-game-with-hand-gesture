@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+# Hand Gesture Controlled Dino Game using React, TensorFlow.js & Electron
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+This project is a **hand gesture recognition system** that enables users to play the **Chrome Dino Game** using a specific hand gesture. It leverages **computer vision** and **machine learning** to detect hand landmarks and recognize predefined gestures in real time. The application is built using **React, TensorFlow.js, and Electron**, making it suitable for both **web** and **desktop environments**.
 
-## Available Scripts
+## Tech Stack
+- **React** - Frontend framework for building the UI
+- **TensorFlow.js** - Machine learning library for hand tracking
+- **HandPose Model** - Pretrained model for detecting hand landmarks
+- **Fingerpose** - Gesture recognition library
+- **Electron** - Enables desktop application capabilities
+- **Webcam API** - Captures real-time video feed
 
-In the project directory, you can run:
+## Features
+✅ **Real-time hand tracking** using TensorFlow.js HandPose Model  
+✅ **Gesture recognition** with Fingerpose  
+✅ **Electron integration** for desktop interactions  
+✅ **Play Chrome Dino Game** by performing a specific hand gesture  
+✅ **Canvas rendering** of hand skeleton for better visualization  
+ 
+## Gesture: "Point Up" for Jump
+- The **index finger** must be **fully extended and pointing up**.
+- All **other fingers must be curled**.
+- The **gesture estimator** confirms the match with a high confidence score before triggering the space key event.
 
-### `npm start`
+## Use Cases
+🎮 **Gaming** - Hands-free control to play the Chrome Dino Game  
+💻 **Accessibility** - Assistive technology for users with limited mobility  
+🖥️ **Fun Experiment** - Explore AI-powered gesture control  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Installation & Setup
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/hand-gesture-dino-game.git
+cd hand-gesture-dino-game
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Install dependencies
+npm install
 
-### `npm test`
+# Run the application
+npm start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Future Improvements
+🚀 Add more gestures for different actions  
+🚀 Implement gesture customization  
+🚀 Improve detection accuracy with additional ML techniques  
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ 
