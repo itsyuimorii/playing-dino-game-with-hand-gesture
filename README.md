@@ -4,12 +4,12 @@
 This project is a **hand gesture recognition system** that enables users to play the **Chrome Dino Game** using a specific hand gesture. It leverages **computer vision** and **machine learning** to detect hand landmarks and recognize predefined gestures in real time. The application is built using **React, TensorFlow.js, and Electron**, making it suitable for both **web** and **desktop environments**.
 
 ## Tech Stack
-- **React** - Frontend framework for building the UI
-- **TensorFlow.js** - Machine learning library for hand tracking
-- **HandPose Model** - Pretrained model for detecting hand landmarks
-- **Fingerpose** - Gesture recognition library
-- **Electron** - Enables desktop application capabilities
-- **Webcam API** - Captures real-time video feed
+- **React**  
+- **TensorFlow.js**  
+- **HandPose Model**  
+- **Fingerpose**  
+- **Electron**  
+- **Webcam API**  
 
 ## Features
 ✅ **Real-time hand tracking** using TensorFlow.js HandPose Model  
