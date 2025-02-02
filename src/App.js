@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import * as tf from "@tensorflow/tfjs";
+import "@tensorflow/tfjs";
 import * as handPose from "@tensorflow-models/handpose";
 import Webcam from "react-webcam";
 import * as fp from "fingerpose";
@@ -47,10 +47,15 @@ const App = () => {
         const GE = new fp.GestureEstimator([
           jumpTata
         ])
-        const gesture = await GE.estimate(hand[0].landmarks, 4);
-        console.log("🚀 ~ detectModel ~ gesture:", gesture)
-        
-      }
+        const gesturePrediction = await GE.estimate(hand[0].landmarks, 4);
+        console.log("🚀 ~ useDetect ~ gesturePrediction:", gesturePrediction)
+     // gesture.gestures[0]
+        gesturePrediction.gestures.forEach((prediction) => {
+          if(prediction.name === "point_up" && prediction.score > 9) {
+            sendSpaceKey();
+          }
+        })
+      } 
       //Draw mesh
       const ctx = canvasRef.current.getContext("2d");
       drawHand(hand,ctx);
@@ -59,17 +64,13 @@ const App = () => {
 
   runHandPose();
 
-
-
   const sendSpaceKey = () => {
     console.log("sending keys...");
-    setTimeout(() => {
-      if (window.electron) {
-        window.electron.sendSpaceKey();
-      } else {
-        console.warn("Electron API not available");
-      }
-    }, 2000);
+    if (window.electron) {
+      window.electron.sendSpaceKey();
+    } else {
+      console.warn("Electron API not available");
+    }
   };
 
   return (
