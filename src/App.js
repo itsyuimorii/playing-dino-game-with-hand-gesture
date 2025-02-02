@@ -1,24 +1,24 @@
 import React, { useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
-import * as handpose from "@tensorflow-models/handpose";
+import * as handPose from "@tensorflow-models/handpose";
 import Webcam from "react-webcam";
-
+import * as fp from "fingerpose";
 import { drawHand } from "./components/utils";
+import jumpTata from './gestures/Jumptata';
 
 const App = () => {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
-
-  const runHandpose = async () => {
-    const loadedHandModel = await handpose.load();
-    // console.log("Handpose model loaded");
-    
+  const runHandPose = async () => {
+    const loadedHandModel = await handPose.load();
+    // console.log("HandPose model loaded");
     
     setInterval(()=>{
         detectModel(loadedHandModel)
       },100)
     //Loop and detect hands
     };
+
   const detectModel = async (loadedHandModel) => {
     //1. Check if the data is available
     if (
@@ -41,15 +41,23 @@ const App = () => {
 
       //Make Detections
       const hand = await loadedHandModel.estimateHands(video);
-      console.log("🚀 ~ useDetect ~ hand:", hand)
+      // console.log("🚀 ~ useDetect ~ hand:", hand)
 
+      if(hand.length > 0) {
+        const GE = new fp.GestureEstimator([
+          jumpTata
+        ])
+        const gesture = await GE.estimate(hand[0].landmarks, 4);
+        console.log("🚀 ~ detectModel ~ gesture:", gesture)
+        
+      }
       //Draw mesh
       const ctx = canvasRef.current.getContext("2d");
       drawHand(hand,ctx);
     }
   };
 
-  runHandpose();
+  runHandPose();
 
 
 
