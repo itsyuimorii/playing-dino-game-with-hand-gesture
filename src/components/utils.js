@@ -8,45 +8,50 @@ const fingerJoints = {
 
 //Drawing function
 export const drawHand = (predictions, ctx) => {
-  if (!predictions.length > 0) return;
-  predictions.forEach((prediction) => {
-    const landmarks = prediction.landmarks;
 
-    //loop through fingers
-    for (let j = 0; j < Object.keys(fingerJoints).length; j++) {
-      let finger = Object.keys(fingerJoints)[j];
-      for (let k = 0; k < fingerJoints[finger].length - 1; k++) {
-        //Get pairs of joints]
-        const firstJointIndex = fingerJoints[finger][k];
-        const secondJointIndex = fingerJoints[finger][k + 1];
+  if (!predictions || predictions.length === 0) return;
+    predictions.forEach((prediction) => {
+      
+      const keypoints = prediction.keypoints;
+      if (!keypoints || keypoints.length === 0) return;
 
-        //Draw Path
+      // //loop through fingers
+      // for (let j = 0; j < Object.keys(fingerJoints).length; j++) {
+      //   let finger = Object.keys(fingerJoints)[j];
+      //   for (let k = 0; k < fingerJoints[finger].length - 1; k++) {
+      //     //Get pairs of joints]
+      //     const firstJointIndex = fingerJoints[finger][k];
+      //     const secondJointIndex = fingerJoints[finger][k + 1];
+
+      //     //Draw Path
+      //     ctx.beginPath();
+      //     ctx.moveTo(
+      //       keypoints[firstJointIndex][0],
+      //       keypoints[firstJointIndex][1]
+      //     );
+      //     ctx.lineTo(
+      //       keypoints[secondJointIndex][0],
+      //       keypoints[secondJointIndex][1]
+      //     );
+      //     ctx.strokeStyle = "plum";
+      //     ctx.lineWidth = 4;
+      //     ctx.stroke();
+      //   }
+      // }
+      // //loop through landmarks and draw them
+      // console.log(keypoints, keypoints[0].x);
+   
+      for (let i = 0; i < keypoints.length; i++) {
+        const x = keypoints[i].x;
+        const y = keypoints[i].y;
+        
+        //start drawing
         ctx.beginPath();
-        ctx.moveTo(
-          landmarks[firstJointIndex][0],
-          landmarks[firstJointIndex][1]
-        );
-        ctx.lineTo(
-          landmarks[secondJointIndex][0],
-          landmarks[secondJointIndex][1]
-        );
-        ctx.strokeStyle = "plum";
-        ctx.lineWidth = 4;
-        ctx.stroke();
+        ctx.arc(x, y, 3, 0, 2 * Math.PI);
+
+        //set line color
+        ctx.fillStyle = "aqua";
+        ctx.fill();
       }
-    }
-    //loop through landmarks and draw them
-
-    for (let i = 0; i < landmarks.length; i++) {
-      const x = landmarks[i][0];
-      const y = landmarks[i][1];
-      //start drawing
-      ctx.beginPath();
-      ctx.arc(x, y, 3, 0, 2 * Math.PI);
-
-      //set line color
-      ctx.fillStyle = "aqua";
-      ctx.fill();
-    }
-  });
+    });
 };

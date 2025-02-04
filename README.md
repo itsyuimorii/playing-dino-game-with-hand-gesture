@@ -47,3 +47,6 @@ npm start
 🚀 Improve detection accuracy with additional ML techniques  
 
  
+
+
+ https://www.warp.dev/terminus/npm-install-from-github

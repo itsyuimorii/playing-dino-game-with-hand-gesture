@@ -9,10 +9,15 @@
     "package": "electron-packager . ElectronReactApp --platform=win32 --arch=x64"
   },
   "dependencies": {
-    "@tensorflow-models/handpose": "^0.1.0",
+    "@mediapipe/hands": "^0.4.1675469240",
+    "@tensorflow-models/hand-pose-detection": "^2.0.1",
     "@tensorflow/tfjs": "^4.22.0",
+    "@tensorflow/tfjs-backend-wasm": "^4.22.0",
+    "@tensorflow/tfjs-backend-webgl": "^4.22.0",
+    "@tensorflow/tfjs-converter": "^4.22.0",
+    "@tensorflow/tfjs-core": "^4.22.0",
     "electron": "^26.0.0",
-    "fingerpose": "^0.1.0",
+    "fingerpose": "github:andypotato/fingerpose",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",

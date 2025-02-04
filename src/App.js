@@ -1,26 +1,41 @@
-import React, { useRef } from "react";
-import "@tensorflow/tfjs";
-import * as handPose from "@tensorflow-models/handpose";
+import * as handPoseDetection from "@tensorflow-models/hand-pose-detection";
+import * as tf from "@tensorflow/tfjs-core";
+import "@tensorflow/tfjs-backend-webgl";
+
 import Webcam from "react-webcam";
 import * as fp from "fingerpose";
+import { useRef } from "react";
 import { drawHand } from "./components/utils";
-import jumpTata from './gestures/Jumptata';
+import jumpTata from "./gestures/Jumptata";
 
 const App = () => {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
-  const runHandPose = async () => {
-    const loadedHandModel = await handPose.load();
-    // console.log("HandPose model loaded");
-    
-    setInterval(()=>{
-        detectModel(loadedHandModel)
-      },100)
-    //Loop and detect hands
-    };
 
-  const detectModel = async (loadedHandModel) => {
-    //1. Check if the data is available
+  const runHandpose = async () => {
+    const loadedHandModel = await handPoseDetection.SupportedModels
+      .MediaPipeHands;
+
+    const detectorConfig = {
+      runtime: "tfjs",
+    };
+    const detector = await handPoseDetection.createDetector(
+      loadedHandModel,
+      detectorConfig
+    );
+    // Use requestAnimationFrame for continuous detection
+    // const detect = async () => {
+    //   await detectModel(detector);
+    //   requestAnimationFrame(detect); // Continue detecting in a loop
+    // };
+    // detect(); // Start detection loop
+    setInterval(async () => {
+      await detectModel(detector);
+    }, 100);
+  };
+  runHandpose();
+
+  const detectModel = async (detector) => {
     if (
       typeof webcamRef.current !== "undefined" &&
       webcamRef.current !== null &&
@@ -29,7 +44,7 @@ const App = () => {
       //Get video properties
       const video = webcamRef.current.video;
       const videoWidth = webcamRef.current.video.videoWidth;
-      const videoHeight =  webcamRef.current.video.videoHeight;
+      const videoHeight = webcamRef.current.video.videoHeight;
 
       //Set video height and width
       webcamRef.current.video.width = videoWidth;
@@ -40,29 +55,25 @@ const App = () => {
       canvasRef.current.height = videoHeight;
 
       //Make Detections
-      const hand = await loadedHandModel.estimateHands(video);
-      // console.log("🚀 ~ useDetect ~ hand:", hand)
+      const hands = await detector.estimateHands(video);
+      // console.log("🚀 ~ detectModel ~ hands:", hands);
 
-      if(hand.length > 0) {
-        const GE = new fp.GestureEstimator([
-          jumpTata
-        ])
-        const gesturePrediction = await GE.estimate(hand[0].landmarks, 4);
-        console.log("🚀 ~ useDetect ~ gesturePrediction:", gesturePrediction)
-     // gesture.gestures[0]
+      if (hands.length > 0) {
+        const GE = new fp.GestureEstimator([jumpTata]);
+        const gesturePrediction = await GE.estimate(hands[0].keypoints, 4);
+        console.log("🚀 ~ useDetect ~ gesturePrediction:", gesturePrediction);
         gesturePrediction.gestures.forEach((prediction) => {
-          if(prediction.name === "point_up" && prediction.score > 9) {
+          if (prediction.name === "point_up" && prediction.score > 4.9
+  
+          ) {
             sendSpaceKey();
           }
-        })
-      } 
-      //Draw mesh
-      const ctx = canvasRef.current.getContext("2d");
-      drawHand(hand,ctx);
+        });
+        const ctx = canvasRef.current.getContext("2d"); 
+        drawHand(hands, ctx);
+      }
     }
   };
-
-  runHandPose();
 
   const sendSpaceKey = () => {
     console.log("sending keys...");
@@ -99,13 +110,14 @@ const App = () => {
       <canvas
         ref={canvasRef}
         style={{
+          // border: "2px solid red",
           position: "absolute",
           marginLeft: "auto",
           marginRight: "auto",
           left: 0,
           right: 0,
           textAlign: "center",
-          zindex: 9,
+          zindex: 99,
           width: 640,
           height: 480,
         }}
