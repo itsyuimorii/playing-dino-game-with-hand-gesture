@@ -8,6 +8,7 @@ const fingerJoints = {
 
 //Drawing function
 export const drawHand = (predictions, ctx) => {
+      console.log("🚀 ~ predictions.forEach ~ keypoints:", predictions);
 
   if (!predictions || predictions.length === 0) return;
     predictions.forEach((prediction) => {
@@ -15,31 +16,30 @@ export const drawHand = (predictions, ctx) => {
       const keypoints = prediction.keypoints;
       if (!keypoints || keypoints.length === 0) return;
 
-      // //loop through fingers
-      // for (let j = 0; j < Object.keys(fingerJoints).length; j++) {
-      //   let finger = Object.keys(fingerJoints)[j];
-      //   for (let k = 0; k < fingerJoints[finger].length - 1; k++) {
-      //     //Get pairs of joints]
-      //     const firstJointIndex = fingerJoints[finger][k];
-      //     const secondJointIndex = fingerJoints[finger][k + 1];
+      //loop through fingers
 
-      //     //Draw Path
-      //     ctx.beginPath();
-      //     ctx.moveTo(
-      //       keypoints[firstJointIndex][0],
-      //       keypoints[firstJointIndex][1]
-      //     );
-      //     ctx.lineTo(
-      //       keypoints[secondJointIndex][0],
-      //       keypoints[secondJointIndex][1]
-      //     );
-      //     ctx.strokeStyle = "plum";
-      //     ctx.lineWidth = 4;
-      //     ctx.stroke();
-      //   }
-      // }
-      // //loop through landmarks and draw them
-      // console.log(keypoints, keypoints[0].x);
+      for (let j = 0; j < Object.keys(fingerJoints).length; j++) {
+        let finger = Object.keys(fingerJoints)[j];
+        for (let k = 0; k < fingerJoints[finger].length - 1; k++) {
+          //Get pairs of joints]
+          const firstJointIndex = fingerJoints[finger][k];
+          const secondJointIndex = fingerJoints[finger][k + 1];
+
+          //Draw Path
+          ctx.beginPath();
+          ctx.moveTo(
+            keypoints[firstJointIndex].x,
+            keypoints[firstJointIndex].y
+          );
+          ctx.lineTo(
+            keypoints[secondJointIndex].x,
+            keypoints[secondJointIndex].y
+          );
+          ctx.strokeStyle = "plum";
+          ctx.lineWidth = 4;
+          ctx.stroke();
+        }
+      }
    
       for (let i = 0; i < keypoints.length; i++) {
         const x = keypoints[i].x;

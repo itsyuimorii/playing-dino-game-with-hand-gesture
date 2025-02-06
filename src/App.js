@@ -31,7 +31,7 @@ const App = () => {
     // detect(); // Start detection loop
     setInterval(async () => {
       await detectModel(detector);
-    }, 100);
+    }, 1/30*1000);
   };
   runHandpose();
 
@@ -55,13 +55,15 @@ const App = () => {
       canvasRef.current.height = videoHeight;
 
       //Make Detections
-      const hands = await detector.estimateHands(video);
+      const hands = await detector.estimateHands(video ,{flipHorizontal: false});
       // console.log("🚀 ~ detectModel ~ hands:", hands);
 
       if (hands.length > 0) {
         const GE = new fp.GestureEstimator([jumpTata]);
-        const gesturePrediction = await GE.estimate(hands[0].keypoints, 4);
+        const gesturePrediction = await GE.estimate(hands[0].keypoints3D, 8.9);
+        if(gesturePrediction.gestures.length > 0){
         console.log("🚀 ~ useDetect ~ gesturePrediction:", gesturePrediction);
+        }
         gesturePrediction.gestures.forEach((prediction) => {
           if (prediction.name === "point_up" && prediction.score > 4.9
   
